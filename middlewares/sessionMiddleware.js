@@ -1,4 +1,3 @@
-// middlewares/sessionMiddleware.js
 const session = require('express-session');
 
 // Utilisation de process.env pour accéder à la clé secrète
