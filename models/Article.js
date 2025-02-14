@@ -1,4 +1,3 @@
-// models/Article.js
 const mongoose = require('mongoose');
 
 // Schéma de l'article
