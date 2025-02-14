@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/User'); // Assurez-vous que le chemin est correct
-
+const User = require('../models/User'); 
 // Middleware pour vérifier l'authentification
 const authenticate = async (req, res, next) => {
   const token = req.header('Authorization')?.replace('Bearer ', ''); // On récupère le token du header Authorization
