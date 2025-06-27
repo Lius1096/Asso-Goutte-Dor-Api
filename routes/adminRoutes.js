@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { authenticate, isAdmin } = require('../middlewares/authMiddleware'); // Importation des middlewares
-const upload = require('../middlewares/upload'); // Importation de votre middleware de gestion des uploads
+const { protect, isAdmin } = require('../middlewares/authMiddleware'); // Correction ici
+const upload = require('../middlewares/upload');
 
 const {
   getUsers,
@@ -10,28 +10,34 @@ const {
   deleteArticle,
   getDashboard,
   getAdminProfile,
-  updateProfile,
-} = require('../controllers/adminController'); // Importation des contrôleurs
+  uploadProfilePicture,
+  updatePassword,
+  //uploadProfilePicture, // Ajout de updatePassword dans le destructuring
+} = require('../controllers/adminController'); // Vérifie que updatePassword est bien exporté depuis adminController
 
 // Récupérer tous les utilisateurs
-router.get('/users', authenticate, isAdmin, getUsers);
+router.get('/users', protect, isAdmin, getUsers);
 
 // Supprimer un utilisateur
-router.delete('/users/:id', authenticate, isAdmin, deleteUser);
+router.delete('/users/:id', protect, isAdmin, deleteUser);
 
 // Ajouter un article
-router.post('/articles', authenticate, isAdmin, addArticle);
+router.post('/articles', protect, isAdmin, addArticle);
 
 // Supprimer un article
-router.delete('/articles/:id', authenticate, isAdmin, deleteArticle);
+router.delete('/articles/:id', protect, isAdmin, deleteArticle);
 
 // Dashboard Admin (accès réservé aux administrateurs)
-router.get('/dashboard', authenticate, isAdmin, getDashboard);
+router.get('/dashboard', protect, isAdmin, getDashboard);
 
-// Route pour récupérer le profil de l'admin
-router.get('/profile', authenticate, isAdmin, getAdminProfile);
+// Récupérer le profil admin
+router.get('/profile', protect, isAdmin, getAdminProfile);
 
-// Route pour mettre à jour le profil de l'admin, avec gestion de la photo de profil
-router.put('/profile', authenticate, isAdmin, upload.single('profilePicture'), updateProfile);
+// Mettre à jour le profil admin (avec upload image)
+router.put('/profile', protect, isAdmin, upload.single('profilePicture'),uploadProfilePicture);
+
+// Route pour changer le mot de passe
+router.put('/admin/password', protect, isAdmin, updatePassword); // Utilisation de la méthode correcte
+
 
 module.exports = router;

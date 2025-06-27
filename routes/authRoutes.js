@@ -1,8 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const { registerAdmin, loginAdmin } = require('../controllers/authController');
+const {
+  register,
+  login,
+  logout,
+  refreshToken,
+  registerAdmin,
+  loginAdmin,
+} = require('../controllers/authController');
 
-router.post('/admin/register', registerAdmin);
-router.post('/admin/login', loginAdmin);
+// Auth utilisateur
+router.post('/register', register);
+router.post('/login', login);
+router.post('/logout', logout);
+router.post('/refresh-token', refreshToken);
+
+// Auth admin
+router.post('/register/admin', registerAdmin);
+router.post('/login/admin', loginAdmin);
 
 module.exports = router;
